@@ -25,9 +25,9 @@ router = Router()
 async def cmd_start(message: Message):
     """Обработчик команды /start"""
     welcome_text = (
-        "👋 Добро пожаловать в сервис распознавания платежных счетов!\n\n"
-        "📄 Отправьте PDF файл со сканом платежного счета, "
-        "и я извлеку из него структурированные данные.\n\n"
+        "Сервис распознавания платежных счетов.\n\n"
+        "Отправьте PDF-файл со сканом платежного счета. "
+        "Сервис извлечет из него структурированные данные.\n\n"
         "Используйте /help для получения дополнительной информации."
     )
     await message.answer(welcome_text)
@@ -37,11 +37,11 @@ async def cmd_start(message: Message):
 async def cmd_help(message: Message):
     """Обработчик команды /help"""
     help_text = (
-        "📖 Справка по использованию бота:\n\n"
-        "1️⃣ Отправьте PDF файл со сканом платежного счета\n"
-        "2️⃣ Дождитесь обработки файла\n"
-        "3️⃣ Получите структурированные данные в формате JSON\n\n"
-        "⚠️ Ограничения:\n"
+        "Справка по использованию бота:\n\n"
+        "1. Отправьте PDF-файл со сканом платежного счета\n"
+        "2. Дождитесь обработки файла\n"
+        "3. Получите структурированные данные в формате JSON\n\n"
+        "Ограничения:\n"
         f"• Максимальный размер файла: {settings.MAX_FILE_SIZE / (1024 * 1024):.0f} МБ\n"
         "• Поддерживается только формат PDF\n\n"
         "Команды:\n"
@@ -59,20 +59,20 @@ async def handle_document(message: Message):
     # Проверка типа файла
     if not document.file_name or not document.file_name.lower().endswith('.pdf'):
         await message.answer(
-            "❌ Пожалуйста, отправьте файл в формате PDF."
+            "Пожалуйста, отправьте файл в формате PDF."
         )
         return
     
     # Проверка размера файла
     if document.file_size and document.file_size > settings.MAX_FILE_SIZE:
         await message.answer(
-            f"❌ Файл слишком большой. Максимальный размер: "
+            f"Файл слишком большой. Максимальный размер: "
             f"{settings.MAX_FILE_SIZE / (1024 * 1024):.0f} МБ"
         )
         return
     
     # Отправка сообщения о начале обработки
-    processing_msg = await message.answer("⏳ Обрабатываю файл...")
+    processing_msg = await message.answer("Файл обрабатывается.")
     
     try:
         # Скачивание файла
@@ -101,7 +101,7 @@ async def handle_document(message: Message):
         logger.error(f"Ошибка при обработке файла: {e}", exc_info=True)
         await processing_msg.delete()
         await message.answer(
-            "❌ Произошла ошибка при обработке файла. Попробуйте позже."
+            "Произошла ошибка при обработке файла. Попробуйте позже."
         )
 
 
@@ -109,7 +109,7 @@ async def handle_document(message: Message):
 async def handle_photo(message: Message):
     """Обработчик загрузки фото (не поддерживается)"""
     await message.answer(
-        "❌ Пожалуйста, отправьте PDF файл, а не изображение. "
+        "Пожалуйста, отправьте PDF-файл, а не изображение. "
         "Для обработки изображений сначала конвертируйте их в PDF."
     )
 
@@ -133,14 +133,14 @@ async def send_success_response(message: Message, data: dict):
             try:
                 await message.answer_document(
                     FSInputFile(tmp_path, filename="result.json"),
-                    caption="✅ Данные успешно извлечены из платежного счета"
+                    caption="Данные успешно извлечены из платежного счета"
                 )
             finally:
                 os.unlink(tmp_path)
         else:
             # Отправка как код для лучшей читаемости
             response_text = (
-                "✅ Данные успешно извлечены из платежного счета:\n\n"
+                "Данные успешно извлечены из платежного счета:\n\n"
                 f"```json\n{formatted_json}\n```"
             )
             await message.answer(response_text, parse_mode="Markdown")
@@ -156,13 +156,13 @@ async def send_success_response(message: Message, data: dict):
         try:
             await message.answer_document(
                 FSInputFile(tmp_path, filename="result.json"),
-                caption="✅ Данные успешно извлечены из платежного счета"
+                caption="Данные успешно извлечены из платежного счета"
             )
         finally:
             os.unlink(tmp_path)
     except Exception as e:
         logger.error(f"Ошибка при отправке ответа: {e}", exc_info=True)
-        await message.answer("✅ Обработка завершена, но произошла ошибка при отправке результата.")
+        await message.answer("Обработка завершена, но произошла ошибка при отправке результата.")
 
 
 async def send_error_response(message: Message, status_code: int, error_message: Optional[str] = None):
@@ -180,5 +180,5 @@ async def send_error_response(message: Message, status_code: int, error_message:
     else:
         response_text = "Произошла неизвестная ошибка."
     
-    await message.answer(f"❌ {response_text}")
+    await message.answer(response_text)
 

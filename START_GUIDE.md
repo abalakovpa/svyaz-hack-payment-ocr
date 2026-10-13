@@ -1,6 +1,6 @@
 # Пошаговая инструкция по запуску сервиса
 
-## Способ 1: Запуск через Docker Compose (РЕКОМЕНДУЕТСЯ) 🐳
+## Способ 1: Запуск через Docker Compose (рекомендуется)
 
 Это самый простой способ запустить все сервисы одной командой.
 
@@ -48,6 +48,7 @@ docker-compose up -d --build
 ### Шаг 4: Проверка работы
 
 Откройте в браузере:
+
 - **API документация**: http://localhost:8000/docs
 - **Health check**: http://localhost:8000/health
 - **Метрики**: http://localhost:8000/api/v1/performance
@@ -84,7 +85,7 @@ docker-compose logs -f telegram-bot
 
 ---
 
-## Способ 2: Локальная разработка (без Docker) 💻
+## Способ 2: Локальная разработка (без Docker)
 
 Если вы хотите запустить сервисы локально для разработки.
 
@@ -108,7 +109,7 @@ pip install -r requirements.txt
 
 # Установить Tesseract OCR:
 # Windows: Скачайте установщик с https://github.com/UB-Mannheim/tesseract/wiki
-#          Установите и добавьте в PATH
+# Установите и добавьте в PATH
 # Linux:   sudo apt-get install tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
 # macOS:   brew install tesseract tesseract-lang
 
@@ -209,11 +210,12 @@ curl http://localhost:8000/api/v1/performance
 ### Проблема: Backend не запускается
 
 **Решение:**
+
 1. Проверьте, что порт 8000 свободен:
    ```bash
    # Windows
    netstat -ano | findstr :8000
-   
+
    # Linux/macOS
    lsof -i :8000
    ```
@@ -231,6 +233,7 @@ curl http://localhost:8000/api/v1/performance
 ### Проблема: Telegram бот не отвечает
 
 **Решение:**
+
 1. Проверьте токен в `.env` файле
 2. Убедитесь, что backend запущен и доступен
 3. Проверьте логи:
@@ -246,6 +249,7 @@ curl http://localhost:8000/api/v1/performance
 ### Проблема: OCR не работает
 
 **Решение:**
+
 1. Убедитесь, что Tesseract установлен:
    ```bash
    tesseract --version
@@ -262,6 +266,7 @@ curl http://localhost:8000/api/v1/performance
 ### Проблема: Ошибка при обработке PDF
 
 **Решение:**
+
 1. Проверьте формат файла (должен быть PDF)
 2. Проверьте размер файла (максимум 20 МБ)
 3. Проверьте логи backend:
@@ -320,10 +325,7 @@ docker exec -it payment-ocr-telegram-bot bash
 
 После успешного запуска:
 
-1. ✅ Протестируйте бота, отправив PDF файл
-2. ✅ Проверьте API через документацию: http://localhost:8000/docs
-3. ✅ Изучите метрики производительности
-4. ✅ Попробуйте обучить модель через API или notebook
-
-Удачи на хакатоне! 🚀
-
+1. Протестируйте бота, отправив PDF файл
+2. Проверьте API через документацию: http://localhost:8000/docs
+3. Изучите метрики производительности
+4. Попробуйте обучить модель через API или notebook

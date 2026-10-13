@@ -19,4 +19,3 @@ pip install -r ../backend/requirements.txt
 ```bash
 jupyter notebook
 ```
-

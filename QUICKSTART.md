@@ -173,4 +173,3 @@ docker-compose logs -f telegram-bot
 1. Убедитесь, что Tesseract установлен в системе
 2. Проверьте языковые пакеты (rus, eng)
 3. Проверьте настройки OCR_LANGUAGE в конфигурации
-
